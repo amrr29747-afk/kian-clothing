@@ -19,7 +19,7 @@ const INITIAL_PRODUCTS = [
     image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&auto=format&fit=crop&q=60",
     category: "Hoodies",
     description: "تصميم أوفرسايز مميز مع طباعة خلفية عصرية ومقاومة للغسيل المتكرر.",
-    sizes: ["S", "M", "L", "XL", "2XL"]
+    sizes: ["S", "M", "L", "XL"]
   },
   {
     id: 3,
