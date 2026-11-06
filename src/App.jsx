@@ -4,7 +4,7 @@ const WHATSAPP_NUMBER = "201557857558";
 
 const INITIAL_PRODUCTS = [
   {
-id: 1, 
+        id: 1, 
         name: 'هودي "وأنتي وأنا والحب سوا"', 
         price: 599, 
         category: "Hoodies", 
