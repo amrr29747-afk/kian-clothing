@@ -12,8 +12,8 @@ const INITIAL_PRODUCTS = [
     colors: [
     { name: "بيج", image: "1.jpg" },
     { name: "أسود", image: "2.jpg" },
-    { name: "نبيتي", image: "3.jpg" },
-    { name: "رمادي داكن", image: "4.jpg" }
+    { الاسم: "نبيتي"، الصورة: "3.jpg" },
+    { الاسم: "رمادي داكن"، الصورة: "4.jpg" }
   },
   {
     id: 2,
