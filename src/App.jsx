@@ -4,13 +4,16 @@ const WHATSAPP_NUMBER = "201557857558";
 
 const INITIAL_PRODUCTS = [
   {
-    id: 1,
-    name: "11:11 - Escape to The Moon Hoodie",
-    price: 999,
-    image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=60",
-    category: "Hoodies",
-    description: "هودي ستريت وير خامة قطن 100% ثقيل ومناسب للشتاء مع طباعة عالية الجودة غير قابلة للتقشير.",
-    sizes: ["S", "M", "L", "XL", "2XL"]
+id: 1, 
+        name: 'هودي "وأنتي وأنا والحب سوا"', 
+        price: 599, 
+        category: "Hoodies", 
+        desc: 'عبّر عن مشاعرك بأناقة ودفء مع هذا الهودي الشتوي المميز. مصمم بعناية ليجمع بين الراحة الفائقة واللمسة الرومانسية، حيث يتألق بعبارة عربية كلاسيكية "وأنتي وأنا والحب سوا" مطبوعة بخط عربي أصيل وجذاب.',
+        colors: [
+          { name: "بيج", image: "1.jpg" },
+          { name: "أسود", image: "2.jpg" },
+          { name: "نبيتي", image: "3.jpg" },
+          { name: "رمادي داكن", image: "4.jpg" }
   },
   {
     id: 2,
