@@ -6,7 +6,7 @@ const INITIAL_PRODUCTS = [
   {
     id: 1,
     name: "11:11 - Escape to The Moon Hoodie",
-    price: 900,
+    price: 999,
     image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=60",
     category: "Hoodies",
     description: "هودي ستريت وير خامة قطن 100% ثقيل ومناسب للشتاء مع طباعة عالية الجودة غير قابلة للتقشير.",
