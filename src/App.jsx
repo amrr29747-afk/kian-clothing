@@ -33,7 +33,7 @@ const INITIAL_PRODUCTS = [
   {
     id: 4,
     name: "ETHNIC Burgundy Hoodie",
-    price: 900,
+    price: 999,
     image: "https://images.unsplash.com/photo-1513782192234-580d437b6798?w=800&auto=format&fit=crop&q=60",
     category: "Hoodies",
     description: "هودي باللون النبيذي الفخم مع طباعة عرقية وعبارة تحفيزية مميزة على الظهر.",
