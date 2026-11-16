@@ -113,6 +113,8 @@ async function handle(req, res) {
   }
 
   const body = req.body && typeof req.body === 'object' ? req.body : {};
+  const lang = body.lang === 'ar' ? 'ar' : 'en';
+  const M = (en, ar) => (lang === 'ar' ? ar : en);
 
   // Honeypot: bots fill this hidden field. Pretend success, send nothing.
   if (body.website) return res.status(200).json({ ok: true, orderId: makeOrderId() });
@@ -128,16 +130,16 @@ async function handle(req, res) {
     notes: clean(c.notes, 300),
   };
 
-  if (customer.name.length < 3) return res.status(400).json({ error: 'Please enter your full name.' });
-  if (!customer.phone) return res.status(400).json({ error: 'Please enter a valid Egyptian mobile number (e.g. 01012345678).' });
-  if (c.phone2 && !customer.phone2) return res.status(400).json({ error: 'The second phone number is not valid.' });
-  if (!GOVERNORATES.includes(customer.governorate)) return res.status(400).json({ error: 'Please select your governorate.' });
-  if (customer.city.length < 2) return res.status(400).json({ error: 'Please enter your city or area.' });
-  if (customer.address.length < 8) return res.status(400).json({ error: 'Please enter your full address.' });
+  if (customer.name.length < 3) return res.status(400).json({ error: M('Please enter your full name.', 'من فضلك اكتب اسمك بالكامل.') });
+  if (!customer.phone) return res.status(400).json({ error: M('Please enter a valid Egyptian mobile number (e.g. 01012345678).', 'من فضلك اكتب رقم موبايل مصري صحيح (مثل 01012345678).') });
+  if (c.phone2 && !customer.phone2) return res.status(400).json({ error: M('The second phone number is not valid.', 'رقم الهاتف الآخر غير صحيح.') });
+  if (!GOVERNORATES.includes(customer.governorate)) return res.status(400).json({ error: M('Please select your governorate.', 'من فضلك اختر المحافظة.') });
+  if (customer.city.length < 2) return res.status(400).json({ error: M('Please enter your city or area.', 'من فضلك اكتب المدينة أو المنطقة.') });
+  if (customer.address.length < 8) return res.status(400).json({ error: M('Please enter your full address.', 'من فضلك اكتب عنوانك بالتفصيل.') });
 
   // Rebuild the order from the catalog: never trust prices or names from the browser.
   const items = Array.isArray(body.items) ? body.items.slice(0, 30) : [];
-  if (items.length === 0) return res.status(400).json({ error: 'Your cart is empty.' });
+  if (items.length === 0) return res.status(400).json({ error: M('Your cart is empty.', 'سلة المشتريات فارغة.') });
 
   const lines = [];
   for (const it of items) {
@@ -150,7 +152,7 @@ async function handle(req, res) {
       (hasColors && !product.colors.some((col) => col.name === it.color)) ||
       !Number.isInteger(quantity) || quantity < 1 || quantity > 10
     ) {
-      return res.status(400).json({ error: 'Some items in your cart are no longer available. Please refresh the page and try again.' });
+      return res.status(400).json({ error: M('Some items in your cart are no longer available. Please refresh the page and try again.', 'بعض المنتجات في سلتك لم تعد متاحة. حدّث الصفحة وحاول مرة أخرى.') });
     }
     lines.push({ name: product.name, size: it.size, color: hasColors ? it.color : '', quantity, price: product.price });
   }
@@ -166,7 +168,7 @@ async function handle(req, res) {
   const to = process.env.ORDER_TO_EMAIL;
   if (!apiKey || !to) {
     console.error('Missing RESEND_API_KEY or ORDER_TO_EMAIL environment variable');
-    return res.status(500).json({ error: 'Orders are temporarily unavailable. Please contact us on WhatsApp.' });
+    return res.status(500).json({ error: M('Orders are temporarily unavailable. Please contact us on WhatsApp.', 'الطلبات غير متاحة مؤقتاً. تواصل معنا على واتساب.') });
   }
 
   const html = renderWaybill(order);
@@ -186,11 +188,11 @@ async function handle(req, res) {
     });
     if (!r.ok) {
       console.error('Resend error', r.status, await r.text());
-      return res.status(502).json({ error: 'We could not send your order right now. Please try again or contact us on WhatsApp.' });
+      return res.status(502).json({ error: M('We could not send your order right now. Please try again or contact us on WhatsApp.', 'تعذر إرسال طلبك الآن. حاول مرة أخرى أو تواصل معنا على واتساب.') });
     }
   } catch (err) {
     console.error('Resend request failed', err);
-    return res.status(502).json({ error: 'We could not send your order right now. Please try again or contact us on WhatsApp.' });
+    return res.status(502).json({ error: M('We could not send your order right now. Please try again or contact us on WhatsApp.', 'تعذر إرسال طلبك الآن. حاول مرة أخرى أو تواصل معنا على واتساب.') });
   }
 
   return res.status(200).json({ ok: true, orderId });
@@ -202,6 +204,7 @@ export default async function handler(req, res) {
     return await handle(req, res);
   } catch (err) {
     console.error('Unexpected order error', err);
-    return res.status(500).json({ error: 'Unexpected server error. Please try again or contact us on WhatsApp.' });
+    const ar = req.body && req.body.lang === 'ar';
+    return res.status(500).json({ error: ar ? 'حدث خطأ غير متوقع. حاول مرة أخرى أو تواصل معنا على واتساب.' : 'Unexpected server error. Please try again or contact us on WhatsApp.' });
   }
 }
