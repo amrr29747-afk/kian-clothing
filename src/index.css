@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Arabic mode: Cairo first, and no letter-spacing (it breaks Arabic letter joining) */
+html[lang='ar'] {
+  font-family: 'Cairo', 'Montserrat', system-ui, sans-serif;
+}
+html[lang='ar'] * {
+  letter-spacing: 0 !important;
+}
